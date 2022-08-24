@@ -12,11 +12,11 @@ jobs:
     steps:
       - checkout
       - run: |
-          cd util
-          docker-compose up
+
 
           cd backend
-          npm run build
+          npm install
+          npm run start
   Test-Package:
     docker:
       - image: cimg/node:13.8.0
