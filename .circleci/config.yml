@@ -17,6 +17,22 @@ jobs:
           cd backend
           npm install
           npm run start
+
+
+  Build-Frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - run: |
+          cd frontend
+          npm install
+          npm run start
+          npm run build
+          npm run prettier
+
+
+                  
   Test-Package:
     docker:
       - image: cimg/node:13.8.0
@@ -29,5 +45,5 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Build-Backend
+      - Build-Frontend
 
