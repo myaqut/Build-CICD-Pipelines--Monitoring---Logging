@@ -17,6 +17,11 @@ jobs:
           cd backend
           npm install
           npm run start
+          npm run webpack
+          npm run start:hmr
+          npm run start:prod
+
+
 
 
   Build-Frontend:
@@ -46,4 +51,5 @@ workflows:
   Default:
     jobs:
       - Build-Frontend
+      - Build-Backend
 
