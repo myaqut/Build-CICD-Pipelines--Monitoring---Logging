@@ -12,6 +12,9 @@ jobs:
     steps:
       - checkout
       - run: |
+          cd util
+          docker-compose up
+
           cd backend
           npm run build
   Test-Package:
