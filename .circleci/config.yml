@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run : |
             cd backend/
-            npm 
+            npm i
             cd ..
             cd frontend/
             npm i
