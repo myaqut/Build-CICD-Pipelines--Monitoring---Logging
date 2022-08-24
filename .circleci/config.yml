@@ -9,9 +9,22 @@ jobs:
       - checkout
       - run: |
           cd backend
-          npm install  
+          npm login
+          npm install
+          npm run start
+  Test-Package:
+    docker:
+      - image: cimg/node:15.0.1
+    steps:
+      - checkout
+      - run: |
+          cd backend
+          npm run test
 
 workflows:
   Default:
     jobs:
       - Build-Backend
+      - Test-Package:
+          requires:
+            - Build-Backend
