@@ -9,9 +9,10 @@ jobs:
     steps:
       - checkout
       - run : |
-            cd backend
-            npm i
-            cd backend
+            cd backend/
+            npm 
+            cd ..
+            cd frontend/
             npm i
       - persist_to_workspace:
           root: ~/project
