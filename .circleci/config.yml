@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   Build-Backend:
     docker:
-      - image: cimg/node:15.0.1
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run: |
@@ -13,7 +13,7 @@ jobs:
           npm run start
   Test-Package:
     docker:
-      - image: cimg/node:15.0.1
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run: |
