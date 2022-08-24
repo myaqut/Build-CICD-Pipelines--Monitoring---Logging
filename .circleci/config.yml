@@ -1,7 +1,23 @@
 version: 2.1
-
+orbs:
+  node: circleci/node@5.0.2
 
 jobs:
+  Install-Dependencies:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - run : |
+            cd backend
+            npm i
+            cd backend
+            npm i
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
+
+    
   Build-Backend:
     docker:
       - image: cimg/node:13.8.0
@@ -23,7 +39,5 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Build-Backend
-      - Test-Package:
-          requires:
-            - Build-Backend
+      - Install-Dependencies
+
