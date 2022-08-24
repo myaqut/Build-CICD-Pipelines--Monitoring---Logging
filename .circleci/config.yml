@@ -3,20 +3,7 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  Install-Dependencies:
-    docker:
-      - image: cimg/node:13.8.0
-    steps:
-      - checkout
-      - run : |
-            cd backend/
-            npm i
-            cd ..
-            cd frontend/
-            npm i
-      - persist_to_workspace:
-          root: ~/project
-          paths: .
+
 
     
   Build-Backend:
@@ -26,8 +13,7 @@ jobs:
       - checkout
       - run: |
           cd backend
-          npm install
-          npm run start
+          npm run build
   Test-Package:
     docker:
       - image: cimg/node:13.8.0
@@ -40,5 +26,5 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Install-Dependencies
+      - Build-Backend
 
