@@ -59,5 +59,6 @@ workflows:
       - Build-Frontend
       - Build-Backend
       - Test-Frontend :
-          require : Build-Frontend
+          requires : 
+            - Build-Frontend
 
