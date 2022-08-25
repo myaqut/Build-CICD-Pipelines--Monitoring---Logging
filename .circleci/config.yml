@@ -75,15 +75,7 @@ jobs:
       - run : |
           cd frontend
           npm install
-          npm audit --audit-level=critical
-      - run:
-          name: Fix Audit problems 
-          command: |
-            cd frontend
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
-
-          when: on_fail
+          npm audit fix --audit-level=critical --force
 
   Scan-Backend:
     docker:
@@ -92,17 +84,12 @@ jobs:
       - checkout
       - restore_cache:
           key : backend-build -{{ checksum "package-lock.json" }}
-      - run : |
-          cd backend
-          npm audit --audit-level=critical
-      - run:
-          name: Fix Audi problems 
-          command: |
+      - run : 
+          name: Fix Audit problems Backend
+          command : |
             cd backend
             npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
 
-          when: on_fail
 workflows:
   Default:
     jobs:
