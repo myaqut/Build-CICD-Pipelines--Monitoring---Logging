@@ -68,7 +68,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key : frontend-build-{{ checksum "package-lock.json" }}
+          key : frontend-build -{{ checksum "package-lock.json" }}
       - run : |
           cd frontend
           npm audit --audit-level=critical
