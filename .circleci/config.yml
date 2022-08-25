@@ -16,7 +16,9 @@ jobs:
           npm run build
 
       - save_cache:
-          paths: [backend/node_modules]
+          paths: 
+            - backend/node_modules
+            - backend/dist            
           key: backend-build -{{ checksum "package-lock.json" }}
 
 
@@ -33,7 +35,9 @@ jobs:
           npm run build
 
       - save_cache:
-          paths: [frontend/node_modules]
+          paths: 
+            - frontend/node_modules
+            - frontend/dist
           key: frontend-build -{{ checksum "package-lock.json" }}
 
 
@@ -84,3 +88,4 @@ workflows:
       - Scan-Frontend : 
           requires:
             - Test-Frontend
+
