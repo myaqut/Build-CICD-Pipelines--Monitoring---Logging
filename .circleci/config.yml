@@ -9,8 +9,6 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
 
       - run: |
           cd backend
@@ -19,7 +17,7 @@ jobs:
 
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-build
+          key: backend-build -{{ checksum "package-lock.json" }}
 
 
 
@@ -28,8 +26,6 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [frontend-build]
 
       - run: |
           cd frontend
@@ -38,7 +34,7 @@ jobs:
 
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-build
+          key: frontend-build -{{ checksum "package-lock.json" }}
 
 
   Test-Frontend:
@@ -47,7 +43,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build]
+          key: frontend-build-{{ checksum "package-lock.json" }}
       - run: |
           cd frontend
           npm test
@@ -57,10 +53,22 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          key: backend-build-{{ checksum "package-lock.json" }}
       - run: |
           cd backend
           npm test 
+
+  Scan-Frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          key : frontend-build-{{ checksum "package-lock.json" }}
+      - run : |
+          cd frontend
+          npm audit --audit-level=critical
+
 
 workflows:
   Default:
