@@ -74,6 +74,7 @@ jobs:
           key : frontend-build -{{ checksum "package-lock.json" }}
       - run : |
           cd frontend
+          npm install
           npm audit --audit-level=critical
       - run:
           name: Fix Audit problems 
