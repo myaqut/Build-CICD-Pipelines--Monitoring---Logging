@@ -13,8 +13,6 @@ jobs:
           keys: [backend-build]
 
       - run: |
-
-
           cd backend
           npm i
           npm run build
@@ -36,7 +34,6 @@ jobs:
       - run: |
           cd frontend
           npm install
-          npm run start
           npm run build
           npm run prettier
 
