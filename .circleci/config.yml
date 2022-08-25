@@ -73,7 +73,16 @@ jobs:
           cd frontend
           npm audit --audit-level=critical
 
-
+  Scan-Backend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          key : backend-build -{{ checksum "package-lock.json" }}
+      - run : |
+          cd backend
+          npm audit --audit-level=critical
 workflows:
   Default:
     jobs:
@@ -88,4 +97,7 @@ workflows:
       - Scan-Frontend : 
           requires:
             - Test-Frontend
+      - Scan-Backend: 
+          requires:
+            - Test-Backend
 
