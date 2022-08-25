@@ -47,7 +47,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: frontend-build-{{ checksum "package-lock.json" }}
+          key: frontend-build -{{ checksum "package-lock.json" }}
       - run: |
           cd frontend
           npm test
@@ -57,7 +57,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: backend-build-{{ checksum "package-lock.json" }}
+          key: backend-build -{{ checksum "package-lock.json" }}
       - run: |
           cd backend
           npm test 
