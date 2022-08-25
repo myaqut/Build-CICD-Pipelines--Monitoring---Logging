@@ -81,6 +81,8 @@ jobs:
           command: |
             cd frontend
             npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
+
           when: on_fail
 
   Scan-Backend:
@@ -98,6 +100,8 @@ jobs:
           command: |
             cd backend
             npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
+
           when: on_fail
 workflows:
   Default:
