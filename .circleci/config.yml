@@ -60,7 +60,10 @@ jobs:
           key: backend-build -{{ checksum "package-lock.json" }}
       - run: |
           cd backend
-          npm test 
+          npm test
+
+
+
 
   Scan-Frontend:
     docker:
@@ -72,6 +75,10 @@ jobs:
       - run : |
           cd frontend
           npm audit --audit-level=critical
+      - run:
+          name: Fix Audit problems 
+          command: npm audit fix --audit-level=critical --force
+          when: on_fail
 
   Scan-Backend:
     docker:
@@ -83,6 +90,10 @@ jobs:
       - run : |
           cd backend
           npm audit --audit-level=critical
+      - run:
+          name: Fix Audi problems 
+          command: npm audit fix --audit-level=critical --force
+          when: on_fail
 workflows:
   Default:
     jobs:
