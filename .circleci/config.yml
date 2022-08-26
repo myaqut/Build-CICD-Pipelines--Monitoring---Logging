@@ -122,5 +122,12 @@ workflows:
             - Test-Backend
       - Notify-Slack:
           context: slacknotifications
+          requires : 
+            - Build-Backend
+            - Build-Frontend
+            - Test-Frontend
+            - Test-Backend
+            - Scan-Backend
+            - Scan-Frontend
 
      
