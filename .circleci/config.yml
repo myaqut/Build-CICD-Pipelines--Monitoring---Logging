@@ -88,7 +88,7 @@ jobs:
           command : |
             cd frontend
             npm install
-            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
 
   Scan-Backend:
     docker:
@@ -120,8 +120,7 @@ workflows:
       - Scan-Backend: 
           requires:
             - Test-Backend
-  send-notification:
-    jobs:
-      - notify:
+      - Notify-Slack:
           context: slacknotifications
+
      
