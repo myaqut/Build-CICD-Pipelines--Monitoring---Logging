@@ -1,9 +1,19 @@
 version: 2.1
-
+orbs:
+  slack: circleci/slack@4.9.3
 jobs:
-
-
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
     
+        
   Build-Backend:
     docker:
       - image: cimg/node:13.8.0
@@ -72,10 +82,13 @@ jobs:
       - checkout
       - restore_cache:
           key : frontend-build -{{ checksum "package-lock.json" }}
-      - run : |
-          cd frontend
-          npm install
-          npm audit fix --audit-level=critical --force
+      - run : 
+          name: Fix Audit problems Frontend
+
+          command : |
+            cd frontend
+            npm install
+            npm audit fix --audit-level=critical --force
 
   Scan-Backend:
     docker:
@@ -107,4 +120,8 @@ workflows:
       - Scan-Backend: 
           requires:
             - Test-Backend
-
+  send-notification:
+    jobs:
+      - notify:
+          context: slacknotifications
+     
