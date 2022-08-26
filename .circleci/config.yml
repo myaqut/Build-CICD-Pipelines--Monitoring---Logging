@@ -125,6 +125,23 @@ jobs:
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
+
+
+
+  deploy-infrastructure:
+    docker:
+          - image : amazon/aws-cli:latest   
+    steps:
+      - checkout
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/backend.yml \
+              --tags project=udacity-projec-backend \
+              --stack-name "back-end-${CIRCLE_WORKFLOW_ID}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
+              exit 1
 workflows:
   Default:
     jobs:
@@ -146,12 +163,11 @@ workflows:
 
       - Scan-Frontend : 
           requires:
-            - Test-Frontend
+            - Build-Frontend
           context: slacknotifications
       - Scan-Backend: 
           requires:
-            - Test-Backend
+            - Build-Backend
           context: slacknotifications
-
-
-     
+      - deploy-infrastructure:
+          requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
