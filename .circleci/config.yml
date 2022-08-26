@@ -142,6 +142,15 @@ jobs:
               --stack-name "back-end-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
               exit 1
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              #--tags project=udacity-projec-frontend \
+              # --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
+              # --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
+              exit 1
 workflows:
   Default:
     jobs:
@@ -171,3 +180,6 @@ workflows:
           context: slacknotifications
       - deploy-infrastructure:
           requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
+
+
+     
