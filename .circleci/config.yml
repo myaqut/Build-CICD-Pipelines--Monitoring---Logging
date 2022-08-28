@@ -128,7 +128,7 @@ jobs:
 
 
 
-  deploy-infrastructure:
+  Deploy-Infrastructure:
     docker:
           - image : amazon/aws-cli:latest   
     steps:
@@ -149,6 +149,18 @@ jobs:
               --tags project=udacity-projec-frontend \
               --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            aws ec2 describe-instances --instance-ids ${CIRCLE_WORKFLOW_ID} \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> .circleci/ansible/inventory.txt
+
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
+      # Here's where you will add some code to rollback on failure      
 workflows:
   Default:
     jobs:
