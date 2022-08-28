@@ -188,7 +188,7 @@ workflows:
           requires:
             - Build-Backend
           context: slacknotifications
-      - deploy-infrastructure:
+      - Deploy-Infrastructure:
           requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
 
 
