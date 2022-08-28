@@ -213,6 +213,8 @@ workflows:
           context: slacknotifications
       - Deploy-Infrastructure:
           requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
+      - Configure-Infrastructure:
+          requires: [Deploy-Infrastructure]
 
 
      
