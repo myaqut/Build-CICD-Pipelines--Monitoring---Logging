@@ -1,0 +1,33 @@
+- name: Install git
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+- name : Install Latest Node.JS
+  apt : 
+    name : 
+      - build-essential
+      - curl
+      - openssl
+      - libssl-dev 
+- name : Install Latest Node.JS
+  apt : 
+    name : 
+      - build-essential
+      - curl
+      - openssl
+      - libssl-dev 
+  shell : |
+    cd node
+    git checkout v0.10.24
+    ./configure
+    make
+    sudo make install
+- name : Give User Permission To Use Port 80
+  shell : |
+    sudo apt-get install libcap2-bin
+    sudo setcap cap_net_bind_service=+ep /usr/local/bin/node
+- name : Use NPM To Install A Package Called PM2.
+  npm:
+    name: pm2 
+    global: yes

@@ -161,7 +161,29 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+      # Here's where you will add some code to rollback on failure     
+
+
+  Configure-Infrastructure:
+    docker:
+      - image: cimg/python:3.10.6
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "34:2e:bb:9d:6c:9c:eb:9e:f6:bc:5c:14:92:b4:c0:af"
+      - attach_workspace:
+          at: project/.circleci/ansible
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m pip install --user ansible
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure      
+ 
 workflows:
   Default:
     jobs:
