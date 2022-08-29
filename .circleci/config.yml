@@ -182,11 +182,7 @@ jobs:
           name: Configure server
           command: |
             ls 
-<<<<<<< HEAD
             ansible-playbook -i inventory.txt .configure-server.yml
-=======
-            ansible-playbook -i inventory.txt .circleci/ansible/configure-server.yml
->>>>>>> 992c31b8378203d1dd7f205da34880e8d7421c33
       # Here's where you will add some code to rollback on failure      
  
 workflows:
