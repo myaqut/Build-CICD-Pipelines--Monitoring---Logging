@@ -189,6 +189,10 @@ jobs:
       - image: cimg/python:3.10.6
     steps:
       - checkout
+      - run : 
+          name : Install dependencies
+          command: |
+            install npm
       - run:
           name: Run migrations
           command: |
