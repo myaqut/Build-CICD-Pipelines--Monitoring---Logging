@@ -4,14 +4,14 @@
     name: git
     state: present
     update_cache: yes
-- name : Install Latest Node.JS
-  apt : 
+- name : Install Latest Node.JS dependencies
+  apt: 
     name : 
       - build-essential
       - curl
       - openssl
       - libssl-dev 
-
+- name : Install Latest Node.js
   shell : |
     cd node
     git checkout v0.10.24
