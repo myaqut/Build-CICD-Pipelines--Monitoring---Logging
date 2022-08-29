@@ -10,13 +10,7 @@
       - curl
       - openssl
       - libssl-dev 
-- name : Install Latest Node.JS
-  apt : 
-    name : 
-      - build-essential
-      - curl
-      - openssl
-      - libssl-dev 
+
   shell : |
     cd node
     git checkout v0.10.24
