@@ -182,15 +182,56 @@ jobs:
           name: Configure server
           command: |
             cd ~/project/.circleci/ansible
-            ls
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure      
- 
+  Run-Migrations:
+    docker : 
+      - image: cimg/python:3.10.6
+    steps:
+      # Checkout code from git
+      - run:
+          name: Run migrations
+          command: |
+            cd /backend
+            npm run migrations > migration_result.txt
+            cat migration_result.txt
+      - run:
+          name: Send migration results to memstash
+          command: |
+            # Your code here
+            exit 1
+     # Here's where you will add some code to rollback on failure      
+
+
 workflows:
   Default:
     jobs:
-   
-      - Deploy-Infrastructure
+      - Build-Frontend : 
+          context: slacknotifications
+
+      - Build-Backend : 
+          context: slacknotifications
+
+      - Test-Frontend :
+          requires : 
+            - Build-Frontend
+          context: slacknotifications
+
+      - Test-Backend: 
+          requires : 
+            - Build-Backend
+          context: slacknotifications
+
+      - Scan-Frontend : 
+          requires:
+            - Build-Frontend
+          context: slacknotifications
+      - Scan-Backend: 
+          requires:
+            - Build-Backend
+          context: slacknotifications
+      - Deploy-Infrastructure:
+          requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
       - Configure-Infrastructure:
           requires: [Deploy-Infrastructure]
 
