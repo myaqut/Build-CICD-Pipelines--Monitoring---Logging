@@ -155,12 +155,12 @@ jobs:
               aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}   \
-              --output text >> .circleci/ansible/inventory.txt
+              --output text >> .circleci/ansible/inventory
 
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory
       # Here's where you will add some code to rollback on failure     
 
 
@@ -182,7 +182,7 @@ jobs:
           name: Configure server
           command: |
             ls 
-            ansible-playbook -i inventory.txt .circleci/ansible/configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure      
  
 workflows:
