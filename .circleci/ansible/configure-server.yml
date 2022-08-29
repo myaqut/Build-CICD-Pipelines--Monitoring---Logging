@@ -25,13 +25,12 @@
            state: latest
            update_cache: yes
     
-    - name: "install NPM"
-      shell: npm i
-      args:
-            chdir: /home/ubuntu
+    - name: install NPM
+         shell: npm i
+         args:
+           chdir: /home/ubuntu
 
-
-    - name: "Install PM2"
+    - name: Install PM2
       npm:
         name: pm2
         global: yes
