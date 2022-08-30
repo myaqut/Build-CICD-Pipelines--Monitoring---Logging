@@ -194,7 +194,7 @@ jobs:
           command: |
 
             cd backend
-            npm i
+            npm install
       - run:
           name: Run migrations
           command: |
