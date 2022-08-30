@@ -156,7 +156,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}   \
               --output text >> .circleci/ansible/inventory.txt
-
+              --cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -208,41 +208,29 @@ jobs:
             # Your code here
             exit 1
      # Here's where you will add some code to rollback on failure      
+  deploy-frontend:
+    docker:
+      - image: cimg/python:3.10.6
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Get backend url
+          command: |
+            # your code here
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+      - run:
+          name: Deploy frontend objects
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure      
 
 
 workflows:
   Default:
     jobs:
-      - Build-Frontend : 
-          context: slacknotifications
-
-      - Build-Backend : 
-          context: slacknotifications
-
-      - Test-Frontend :
-          requires : 
-            - Build-Frontend
-          context: slacknotifications
-
-      - Test-Backend: 
-          requires : 
-            - Build-Backend
-          context: slacknotifications
-
-      - Scan-Frontend : 
-          requires:
-            - Build-Frontend
-          context: slacknotifications
-      - Scan-Backend: 
-          requires:
-            - Build-Backend
-          context: slacknotifications
-      - Deploy-Infrastructure:
-          requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
-      - Configure-Infrastructure:
-          requires: [Deploy-Infrastructure]
-      - Run-Migrations : 
-          requires:
-            - Configure-Infrastructure
-
-     
+      - Deploy-Infrastructure
