@@ -194,10 +194,7 @@ jobs:
           command: |
 
             cd backend
-            npm login
-            
-            npm install
-
+            npm i
       - run:
           name: Run migrations
           command: |
@@ -216,36 +213,6 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Build-Frontend : 
-          context: slacknotifications
-
-      - Build-Backend : 
-          context: slacknotifications
-
-      - Test-Frontend :
-          requires : 
-            - Build-Frontend
-          context: slacknotifications
-
-      - Test-Backend: 
-          requires : 
-            - Build-Backend
-          context: slacknotifications
-
-      - Scan-Frontend : 
-          requires:
-            - Build-Frontend
-          context: slacknotifications
-      - Scan-Backend: 
-          requires:
-            - Build-Backend
-          context: slacknotifications
-      - Deploy-Infrastructure:
-          requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
-      - Configure-Infrastructure:
-          requires: [Deploy-Infrastructure]
       - Run-Migrations : 
-          requires:
-            - Configure-Infrastructure
 
      
