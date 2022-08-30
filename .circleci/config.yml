@@ -193,7 +193,8 @@ jobs:
           name : Install dependencies
           command: |
             cd backend
-            install npm
+            npm install
+
       - run:
           name: Run migrations
           command: |
