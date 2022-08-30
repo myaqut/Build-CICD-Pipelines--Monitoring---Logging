@@ -213,6 +213,6 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Run-Migrations : 
+      - Run-Migrations 
 
      
