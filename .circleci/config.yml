@@ -186,7 +186,7 @@ jobs:
       # Here's where you will add some code to rollback on failure      
   Run-Migrations:
     docker : 
-      - image: cimg/python:3.10.6
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run : 
