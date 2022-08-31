@@ -248,6 +248,8 @@ jobs:
   Deploy-Backend:
     docker:
       - image: cimg/node:13.8.0
+      - image: cimg/python:3.10.6
+
     steps:
       - checkout
       - attach_workspace:
@@ -260,13 +262,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt install software-properties-common
-            sudo add-apt-repository ppa:deadsnakes/ppa
-            sudo apt update
-            sudo apt install python3.8
-            sudo apt update
-
-            sudo apt-get install python3-pip
             python3 -m pip install --user ansible
       - run:
           name: Deploy backend
