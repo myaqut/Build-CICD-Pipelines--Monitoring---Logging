@@ -134,14 +134,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=udacity-projec-frontend \
-              --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" 
-      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
@@ -149,22 +141,22 @@ jobs:
               --tags project=udacity-projec-backend \
               --stack-name "back-end-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
- 
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --tags project=udacity-projec-frontend \
+              --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-              backendIP= $(aws ec2 describe-instances \
-
+              aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}   \
+              --output text >> .circleci/ansible/inventory.txt
 
-              --filters Name=tag:Name,Values=backend-$WORKFLOW_ID \
-
-              --output text) 
-              echo $backendIP
-
-              echo "$backendIP"
-              echo "$backendIP" >> .circleci/ansible/inventory.txt
-              cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -216,29 +208,40 @@ jobs:
             # Your code here
             exit 1
      # Here's where you will add some code to rollback on failure      
-  deploy-frontend:
-    docker:
-      - image: cimg/python:3.10.6
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
-          name: Get backend url
-          command: |
-            # your code here
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-      - run:
-          name: Deploy frontend objects
-          command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure      
 
 
 workflows:
   Default:
     jobs:
-      - Deploy-Infrastructure
+      # - Build-Frontend : 
+      #     context: slacknotifications
+
+      # - Build-Backend : 
+      #     context: slacknotifications
+
+      # - Test-Frontend :
+      #     requires : 
+      #       - Build-Frontend
+      #     context: slacknotifications
+
+      # - Test-Backend: 
+      #     requires : 
+      #       - Build-Backend
+      #     context: slacknotifications
+
+      # - Scan-Frontend : 
+      #     requires:
+      #       - Build-Frontend
+      #     context: slacknotifications
+      # - Scan-Backend: 
+      #     requires:
+      #       - Build-Backend
+      #     context: slacknotifications
+      # - Deploy-Infrastructure:
+      #     requires: [Test-Frontend, Test-Backend, Scan-Frontend, Scan-Backend]
+      - Configure-Infrastructure
+      # - Run-Migrations : 
+      #     requires:
+      #       - Configure-Infrastructure
+
+     
