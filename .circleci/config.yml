@@ -265,6 +265,7 @@ jobs:
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt update
             sudo apt install python3.8
+            sudo apt-get install python3-pip
             python3 -m pip install --user ansible
       - run:
           name: Deploy backend
