@@ -154,9 +154,11 @@ jobs:
           command: |
             URLS=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters Name=tag:Name,Values=backend-backend-backend-67bf1a9d-7240-40db-b56f-29d16b22cd00 \
+            --filters Name=tag:Name,Values=backend-67bf1a9d-7240-40db-b56f-29d16b22cd00 \
             --output text)
             echo $URLS
+            cat $URL >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
 
 
       - persist_to_workspace:
