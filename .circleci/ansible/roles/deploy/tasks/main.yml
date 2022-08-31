@@ -3,8 +3,8 @@
   timeout: 900
 - name: Copy file with owner and permissions
   copy:
-    src: ./dist/
-    dest: /
+    src: backed./dist
+    dest: /var/www/html
     owner: udacity
     group: udacity
     mode: '0644'
