@@ -158,12 +158,14 @@ jobs:
             --output text)
             echo $backendIP
             echo $backendIP >> .circleci/ansible/inventory.txt
+            echo $backendIP >> .circleci/ansible/backendip.txt
 
 
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/backendip.txt
               # Here's where you will add some code to rollback on failure     
 
 
@@ -227,7 +229,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            BACKEND_IP=$(head -1 ~/project/.circleci/ansible/inventory.txt)
+            BACKEND_IP=$(cat ~/project/.circleci/ansible/backendip.txt)
             echo $BACKEND_IP
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
