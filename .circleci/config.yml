@@ -241,6 +241,8 @@ jobs:
           command: |
             cd frontend
             npm run build
+            aws s3 cp ./dist s3://udapeople-0d69241b-bb16-4863-8d94-68ef7a280fb1 --recursive
+
       # Here's where you will add some code to rollback on failure      
 
 
