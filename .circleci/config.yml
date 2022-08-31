@@ -266,12 +266,15 @@ jobs:
             sudo apt install nodejs
             sudo apt install npm
       - run:
-          name: Deploy backend
+          name: Deploy backend and run ansible
           command: |
             cd backend
             npm i
             npm run build
             # your code here
+            cd ~/project/.circleci/ansible
+            ansible-playbook -i inventory.txt depoloy-backend.yml
+
       # Here's where you will add some code to rollback on failure  
 
 
@@ -303,12 +306,14 @@ workflows:
       #       - Build-Backend
       #     context: slacknotifications
       # - Deploy-Infrastructure
-      # - Configure-Infrastructure:
+      - Configure-Infrastructure
       #     requires: [Deploy-Infrastructure]
       # - Run-Migrations : 
       #     requires:
       #       - Configure-Infrastructure
-      # - Deploy-Frontend:
-      #       requires:
-      #         - Deploy-Infrastructure
-      -   Deploy-Backend
+      - Deploy-Frontend:
+            requires:
+              - Configure-Infrastructure
+      - Deploy-Backend:
+            requires:
+                - Deploy-Frontend
