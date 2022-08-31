@@ -157,6 +157,7 @@ jobs:
             --filters Name=tag:Name,Values=backend-67bf1a9d-7240-40db-b56f-29d16b22cd00 \
             --output text)
             echo $backendIP
+            ls
             cat $backendIP >> .circleci/ansible/inventory.txt
 
 
@@ -270,5 +271,7 @@ workflows:
       # - Run-Migrations : 
       #     requires:
       #       - Configure-Infrastructure
-
+      - Deploy-Frontend:
+            requires:
+              - Deploy-Infrastructure
      
