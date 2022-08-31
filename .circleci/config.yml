@@ -183,7 +183,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt install software-properties-common
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt update
+            sudo apt install python3.8
             python3 -m pip install --user ansible
+
+
       - run:
           name: Configure server
           command: |
