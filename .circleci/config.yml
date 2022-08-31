@@ -152,13 +152,12 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            URLS=$(aws ec2 describe-instances \
+            backendIP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters Name=tag:Name,Values=backend-67bf1a9d-7240-40db-b56f-29d16b22cd00 \
             --output text)
-            echo $URLS
-            cat $URL >> .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
+            echo $backendIP
+            cat $backendIP >> .circleci/ansible/inventory.txt
 
 
       - persist_to_workspace:
@@ -206,12 +205,36 @@ jobs:
             cd backend
             npm run migrations > migration_result.txt
             cat migration_result.txt
-      - run:
-          name: Send migration results to memstash
-          command: |
-            # Your code here
-            exit 1
+      - save_cache:
+          paths: 
+            - backend/migration_result.txt
+          key: migration-result -{{ checksum "package-lock.json" }}
      # Here's where you will add some code to rollback on failure      
+  
+  Deploy-Frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: project/.circleci/ansible/inventory.txt
+
+      - run:
+          name: Install dependencies
+          command: |
+              npm install
+      - run:
+          name: Get backend url
+          command: |
+            cat project/.circleci/ansible/inventory.txt
+      #       export API_URL="http://${BACKEND_IP}:3030"
+      #       echo "${API_URL}"
+      # - run:
+      #     name: Deploy frontend objects
+      #     command: |
+      #       # your code here
+      # Here's where you will add some code to rollback on failure      
 
 
 workflows:
