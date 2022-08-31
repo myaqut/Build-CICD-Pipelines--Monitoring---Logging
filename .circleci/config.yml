@@ -228,9 +228,9 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            cat ~/project/.circleci/ansible/inventory.txt
-      #       export API_URL="http://${BACKEND_IP}:3030"
-      #       echo "${API_URL}"
+            cat ~/project/.circleci/ansible/inventory.txt >> $BACKEND_IP
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
       # - run:
       #     name: Deploy frontend objects
       #     command: |
