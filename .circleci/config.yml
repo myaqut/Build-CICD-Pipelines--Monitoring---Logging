@@ -159,6 +159,7 @@ jobs:
             echo $backendIP
             echo $backendIP >> .circleci/ansible/inventory.txt
             echo $backendIP >> .circleci/ansible/backendip.txt
+            # add workflow ID here
 
 
       - persist_to_workspace:
@@ -242,8 +243,32 @@ jobs:
             cd frontend
             npm run build
             aws s3 cp ./dist s3://udapeople-0d69241b-bb16-4863-8d94-68ef7a280fb1 --recursive
-
+      # add workflow ID here
       # Here's where you will add some code to rollback on failure      
+  Deploy-Backend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "34:2e:bb:9d:6c:9c:eb:9e:f6:bc:5c:14:92:b4:c0:af"
+      
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m pip install --user ansible
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+            npm i
+            npm run build
+            # your code here
+      # Here's where you will add some code to rollback on failure  
 
 
 workflows:
@@ -273,13 +298,13 @@ workflows:
       #     requires:
       #       - Build-Backend
       #     context: slacknotifications
-      - Deploy-Infrastructure
+      # - Deploy-Infrastructure
       # - Configure-Infrastructure:
       #     requires: [Deploy-Infrastructure]
       # - Run-Migrations : 
       #     requires:
       #       - Configure-Infrastructure
-      - Deploy-Frontend:
-            requires:
-              - Deploy-Infrastructure
-     
+      # - Deploy-Frontend:
+      #       requires:
+      #         - Deploy-Infrastructure
+      -   Deploy-Backend
