@@ -264,6 +264,7 @@ jobs:
             python3 -m pip install --user ansible
             sudo apt update
             sudo apt install nodejs
+            sudo apt install npm
       - run:
           name: Deploy backend
           command: |
