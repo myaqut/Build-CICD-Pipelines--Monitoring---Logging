@@ -218,7 +218,8 @@ jobs:
       - checkout
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: .circleci/ansible/
+          at: ~/
+
 
       - run:
           name: Install dependencies
@@ -227,7 +228,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            cat project/.circleci/ansible/inventory.txt
+            cat ~/project/.circleci/ansible/inventory.txt
       #       export API_URL="http://${BACKEND_IP}:3030"
       #       echo "${API_URL}"
       # - run:
