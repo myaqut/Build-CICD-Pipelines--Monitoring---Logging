@@ -247,7 +247,6 @@ jobs:
       # Here's where you will add some code to rollback on failure      
   Deploy-Backend:
     docker:
-      - image: cimg/node:13.8.0
       - image: cimg/python:3.10.6
 
     steps:
@@ -263,6 +262,11 @@ jobs:
           name: Install dependencies
           command: |
             python3 -m pip install --user ansible
+            pip install awscli
+            apt-get install curl
+            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+            apt-get install nodejs
+
       - run:
           name: Deploy backend
           command: |
