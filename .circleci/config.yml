@@ -225,6 +225,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+              cd frontend
               npm install
       - run:
           name: Get backend url
@@ -232,11 +233,13 @@ jobs:
             BACKEND_IP=$(cat ~/project/.circleci/ansible/backendip.txt)
             echo $BACKEND_IP
             export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-      # - run:
-      #     name: Deploy frontend objects
-      #     command: |
-      #       # your code here
+            echo "${API_URL}" >> frontend/.env
+            
+      - run:
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm run build
       # Here's where you will add some code to rollback on failure      
 
 
