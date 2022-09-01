@@ -3,7 +3,6 @@
   timeout: 900
 - name: Copy file with owner and permissions
   become: true
-
   copy:
     src: /home/circleci/project/backend/dist
     dest: /var/www/html
