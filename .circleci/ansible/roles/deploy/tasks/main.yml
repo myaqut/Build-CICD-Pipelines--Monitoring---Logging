@@ -5,5 +5,5 @@
   become: true
 
   copy:
-    src: /home/circleci/project/backend/
+    src: /home/circleci/project/backend/dist
     dest: /var/www/html
