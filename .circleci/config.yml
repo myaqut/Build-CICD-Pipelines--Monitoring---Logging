@@ -272,6 +272,7 @@ jobs:
             npm i
             npm run build
             ls
+            pwd
             # your code here
             cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
