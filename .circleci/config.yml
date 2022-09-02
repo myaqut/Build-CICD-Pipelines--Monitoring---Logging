@@ -265,6 +265,8 @@ jobs:
             sudo apt update
             sudo apt install nodejs
             sudo apt install npm
+
+
       - run:
           name: Deploy backend and run ansible
           command: |
@@ -273,11 +275,14 @@ jobs:
             npm run build
             ls
             pwd
-            # your code here
+            cd .. 
+            tar -C backend -czvf artifact.tar.gz .
+
             cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
 
       # Here's where you will add some code to rollback on failure  
+
 
 
 workflows:
