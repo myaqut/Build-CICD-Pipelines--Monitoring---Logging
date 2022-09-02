@@ -282,6 +282,40 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
 
       # Here's where you will add some code to rollback on failure  
+  
+  Smoke-Test:
+    docker:
+      - image: cimg/aws:2022.06
+    steps:
+      - checkout
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "34:2e:bb:9d:6c:9c:eb:9e:f6:bc:5c:14:92:b4:c0:af"
+          
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt install curl
+      - run:
+          name: Get backend url
+          command: |
+            BACKEND_IP=$(cat ~/project/.circleci/ansible/backendip.txt)
+            echo $BACKEND_IP
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+      - run:
+          name: Backend smoke test.
+          command: |
+            if curl "${API_URL}/api/status" | grep "ok"
+              then
+                return 0
+              else
+                return 1      
+      # Here's where you will add some code to rollback on failure  
+
 
 
 
@@ -313,15 +347,18 @@ workflows:
       #       - Build-Backend
       #     context: slacknotifications
       - Deploy-Infrastructure
-      - Configure-Infrastructure :
-          requires: [Deploy-Infrastructure]
-      # - Run-Migrations : 
-      #     requires:
-      #       - Configure-Infrastructure
-      - Deploy-Frontend:
-            requires:
-              - Deploy-Infrastructure
-      - Deploy-Backend:
-            requires:
-                - Deploy-Frontend
-                - Configure-Infrastructure
+      # - Configure-Infrastructure :
+      #     requires: [Deploy-Infrastructure]
+      # # - Run-Migrations : 
+      # #     requires:
+      # #       - Configure-Infrastructure
+      # - Deploy-Frontend:
+      #       requires:
+      #         - Deploy-Infrastructure
+      # - Deploy-Backend:
+      #       requires:
+      #           - Deploy-Frontend
+      #           - Configure-Infrastructure
+      - Smoke-Test : 
+              requires:
+                - Deploy-Infrastructure
