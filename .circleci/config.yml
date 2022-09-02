@@ -312,8 +312,9 @@ jobs:
             if curl "${API_URL}/api/status" | grep "ok"
               then
                 return 0
-              else
+            else
                 return 1      
+            fi
       # Here's where you will add some code to rollback on failure  
 
 
