@@ -300,13 +300,15 @@ jobs:
           command: |
             sudo apt install curl
       - run:
-          name: Backend smoke test.
+          name: Get backend url
           command: |
             BACKEND_IP=$(cat ~/project/.circleci/ansible/backendip.txt)
             echo $BACKEND_IP
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-
+      - run:
+          name: Backend smoke test.
+          command: |
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
