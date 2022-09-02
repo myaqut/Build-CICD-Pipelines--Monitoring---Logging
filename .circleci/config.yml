@@ -324,3 +324,4 @@ workflows:
       - Deploy-Backend:
             requires:
                 - Deploy-Frontend
+                - Configure-Infrastructure
