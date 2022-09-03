@@ -347,7 +347,7 @@ workflows:
       #     requires:
       #       - Build-Backend
       #     context: slacknotifications
-      - Deploy-Infrastructure 
+      # - Deploy-Infrastructure 
 
       - Configure-Infrastructure :
            requires: [Deploy-Infrastructure]
