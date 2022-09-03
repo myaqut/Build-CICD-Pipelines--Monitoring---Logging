@@ -360,4 +360,4 @@ workflows:
                  - Configure-Infrastructure
       - Smoke-Test : 
               requires:
-                - Deploy-Infrastructure
+                - Deploy-Backend
