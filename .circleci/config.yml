@@ -205,7 +205,6 @@ jobs:
 
             cd backend
             npm install
-            npm run build
 
       - run:
           name: Run migrations
@@ -347,9 +346,11 @@ workflows:
       #     requires:
       #       - Build-Backend
       #     context: slacknotifications
-      # - Deploy-Infrastructure 
+      - Deploy-Infrastructure 
 
-      - Configure-Infrastructure 
+      - Configure-Infrastructure :
+            requires:
+              - Deploy-Infrastructure
       - Run-Migrations :
             requires:
                - Configure-Infrastructure
