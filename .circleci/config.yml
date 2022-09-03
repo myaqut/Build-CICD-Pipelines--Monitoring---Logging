@@ -347,17 +347,17 @@ workflows:
       #     requires:
       #       - Build-Backend
       #     context: slacknotifications
-      # - Deploy-Infrastructure 
+      - Deploy-Infrastructure 
 
-      # - Configure-Infrastructure :
-      #      requires: [Deploy-Infrastructure]
-      - Run-Migrations
-      #       requires:
-      #          - Deploy-Infrastructure
-      # - Deploy-Backend:
-      #        requires:
-      #            - Deploy-Frontend
-      #            - Configure-Infrastructure
-      # - Smoke-Test : 
-      #         requires:
-      #           - Deploy-Backend
+      - Configure-Infrastructure :
+           requires: [Deploy-Infrastructure]
+      - Run-Migrations :
+            requires:
+               - Deploy-Infrastructure
+      - Deploy-Backend:
+             requires:
+                 - Deploy-Frontend
+                 - Configure-Infrastructure
+      - Smoke-Test : 
+              requires:
+                - Deploy-Backend
