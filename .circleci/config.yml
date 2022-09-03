@@ -349,8 +349,7 @@ workflows:
       #     context: slacknotifications
       # - Deploy-Infrastructure 
 
-      - Configure-Infrastructure :
-           requires: [Deploy-Infrastructure]
+      - Configure-Infrastructure 
       - Run-Migrations :
             requires:
                - Deploy-Infrastructure
