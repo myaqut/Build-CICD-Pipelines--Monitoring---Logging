@@ -358,15 +358,15 @@ workflows:
       #     context: slacknotifications
       - Deploy-Infrastructure 
 
-      - Configure-Infrastructure :
-            requires:
-              - Deploy-Infrastructure
-      # - Run-Migrations :
+      # - Configure-Infrastructure :
       #       requires:
-      #          - Configure-Infrastructure
+      #         - Deploy-Infrastructure
+      # # - Run-Migrations :
+      # #       requires:
+      # #          - Configure-Infrastructure
       - Deploy-Backend:
              requires:
-                 - Configure-Infrastructure
+                 - Deploy-Infrastructure
       - Smoke-Test : 
               requires:
                 - Deploy-Backend
