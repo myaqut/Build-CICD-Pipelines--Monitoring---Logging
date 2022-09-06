@@ -366,7 +366,7 @@ workflows:
       # #          - Configure-Infrastructure
       - Deploy-Backend:
              requires:
-                 - Deploy-Infrastructure
+                 - Configure-Infrastructure
       - Smoke-Test : 
               requires:
                 - Deploy-Backend
