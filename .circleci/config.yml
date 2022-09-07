@@ -15,7 +15,6 @@ commands:
             command: |
                     cd ~/project/backend
                     npm install
-                    npm audit fix --audit-level=critical --force
                     npm run migration:revert
 
   destroy-environment:
