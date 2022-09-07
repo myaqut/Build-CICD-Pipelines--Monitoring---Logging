@@ -174,28 +174,28 @@ jobs:
       - image: cimg/aws:2022.06
     steps:
       - checkout
-      # - run:
-      #     name: Ensure back-end infrastructure exists
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file .circleci/files/backend.yml \
-      #         --tags project=udacity-projec-backend \
-      #         --stack-name "back-end-${CIRCLE_WORKFLOW_ID}" \
-      #         --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
-      # - run:
-      #     name: Ensure front-end infrastructure exist
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file .circleci/files/frontend.yml \
-      #         --tags project=udacity-projec-frontend \
-      #         --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
-      #         --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/backend.yml \
+              --tags project=udacity-projec-backend \
+              --stack-name "back-end-${CIRCLE_WORKFLOW_ID}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --tags project=udacity-projec-frontend \
+              --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
       - run:
           name: Add back-end ip to ansible inventory
           command: |
             backendIP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters Name=tag:Name,Values=backend-67bf1a9d-7240-40db-b56f-29d16b22cd00 \
+            --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID} \
             --output text)
             echo $backendIP
             echo $backendIP >> .circleci/ansible/inventory.txt
@@ -294,7 +294,7 @@ jobs:
           command: |
             cd frontend
             npm run build
-            aws s3 cp ./dist s3://udapeople-0d69241b-bb16-4863-8d94-68ef7a280fb1 --recursive
+            aws s3 cp ./dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
       # add workflow ID here
       # Here's where you will add some code to rollback on failure      
   Deploy-Backend:
@@ -366,41 +366,43 @@ jobs:
               exit 1
             fi
       - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          workflow_id: ${CIRCLE_WORKFLOW_ID}
       - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          workflow_id: ${CIRCLE_WORKFLOW_ID}
 
 
 
 workflows:
   Default:
     jobs:
-      # - Build-Frontend : 
-      #     context: slacknotifications
+      - Build-Frontend : 
+          context: slacknotifications
 
-      # - Build-Backend : 
-      #      context: slacknotifications
+      - Build-Backend : 
+           context: slacknotifications
 
-      # - Test-Frontend :
-      #     requires : 
-      #       - Build-Frontend
-      #     context: slacknotifications
+      - Test-Frontend :
+          requires : 
+            - Build-Frontend
+          context: slacknotifications
 
-      # - Test-Backend: 
-      #     requires : 
-      #       - Build-Backend
-      #     context: slacknotifications
+      - Test-Backend: 
+          requires : 
+            - Build-Backend
+          context: slacknotifications
 
-      # - Scan-Frontend : 
-      #     requires:
-      #       - Build-Frontend
-      #     context: slacknotifications
-      # - Scan-Backend: 
-      #     requires:
-      #       - Build-Backend
-      #     context: slacknotifications
-      - Deploy-Infrastructure 
-
+      - Scan-Frontend : 
+          requires:
+            - Build-Frontend
+          context: slacknotifications
+      - Scan-Backend: 
+          requires:
+            - Build-Backend
+          context: slacknotifications
+      - Deploy-Infrastructure :
+          requires:
+            - Scan-Backend
+            - Scan-Frontend
       - Configure-Infrastructure :
             requires:
               - Deploy-Infrastructure
