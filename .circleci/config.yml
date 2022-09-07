@@ -28,11 +28,13 @@ commands:
           when: on_fail
           command: |
             aws s3 rb s3://udapeople-${CIRCLE_WORKFLOW_ID} --force
+            echo frontend-${CIRCLE_WORKFLOW_ID} 
             aws cloudformation delete-stack --stack-name frontend-${CIRCLE_WORKFLOW_ID}
       - run:
           name: Destroy backend
           when: on_fail
           command: |
+            echo backend-${CIRCLE_WORKFLOW_ID}
             aws cloudformation delete-stack --stack-name backend-${CIRCLE_WORKFLOW_ID}
 
 
