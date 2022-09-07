@@ -16,7 +16,7 @@ commands:
                     cd ~/project/backend
                     npm i 
                     
-                    npm run migration:revert
+                    npm run migrations:revert
 
   destroy-environment:
     parameters:
