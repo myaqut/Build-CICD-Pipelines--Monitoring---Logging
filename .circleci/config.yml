@@ -466,7 +466,7 @@ workflows:
                 - Deploy-Backend 
       - Cloudfront-Update : 
               requires:
-                - Smoke-test
+                - Smoke-Test
       - Cleanup : 
               requires:
                 - Cloudfront-Update
