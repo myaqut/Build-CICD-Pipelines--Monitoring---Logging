@@ -359,8 +359,6 @@ jobs:
             else
               exit 1
             fi
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID}
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
 
@@ -455,7 +453,6 @@ workflows:
                   - master
       - Deploy-Frontend: 
             requires:
-               - Configure-Infrastructure
                - Run-Migrations
 
             filters:
@@ -465,7 +462,7 @@ workflows:
  
       - Deploy-Backend:
              requires:
-                 - Configure-Infrastructure
+                 - Run-Migrations
              filters:
                 branches:
                   only:
@@ -474,6 +471,7 @@ workflows:
       - Smoke-Test : 
               requires:
                 - Deploy-Backend 
+                - Deploy-Frontend
               filters:
                 branches:
                   only:
