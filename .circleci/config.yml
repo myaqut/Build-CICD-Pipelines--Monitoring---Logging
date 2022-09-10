@@ -288,7 +288,7 @@ jobs:
           command: |
             cd frontend
             npm run build
-            aws s3 cp ./dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
+            aws s3 cp ./dist s3://udapeople-${  } --recursive
       # add workflow ID here
       # Here's where you will add some code to rollback on failure      
   Deploy-Backend:
@@ -453,10 +453,18 @@ workflows:
               branches:
                 only:
                   - master
-
+      - Run-Migrations :
+            requires:
+               - Configure-Infrastructure
+            filters:
+              branches:
+                only:
+                  - master
+ 
       - Deploy-Backend:
              requires:
                  - Configure-Infrastructure
+                 - Run-Migrations
              filters:
                 branches:
                   only:
