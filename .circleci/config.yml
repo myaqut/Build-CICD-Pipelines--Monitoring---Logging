@@ -453,9 +453,11 @@ workflows:
               branches:
                 only:
                   - master
-      - Run-Migrations :
+      - Deploy-Frontend: 
             requires:
                - Configure-Infrastructure
+               - Run-Migrations
+
             filters:
               branches:
                 only:
@@ -464,7 +466,6 @@ workflows:
       - Deploy-Backend:
              requires:
                  - Configure-Infrastructure
-                 - Run-Migrations
              filters:
                 branches:
                   only:
