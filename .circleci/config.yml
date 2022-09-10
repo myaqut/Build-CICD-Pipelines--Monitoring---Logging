@@ -251,7 +251,7 @@ jobs:
       - run:
           name: Send migration status to kvdb.io OR memstash.io
           command: |   
-              if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+              if grep -q "has been executed successfully." ~/project/backend/migration_result.txt
               then
                   # If you are using memstash.io, generate the token "7933fe63-4687-4fa1-8426-aa25aa1730ec" on the website
                   curl -H "Content-Type: text/plain" -H "token: 7933fe63-4687-4fa1-8426-aa25aa1730ec" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
@@ -403,34 +403,31 @@ jobs:
 workflows:
   Default:
     jobs:
-      - Build-Frontend : 
-          context: slacknotifications
+      # - Build-Frontend : 
+      #     context: slacknotifications
 
-      - Build-Backend : 
-           context: slacknotifications
+      # - Build-Backend : 
+      #      context: slacknotifications
 
-      - Test-Frontend :
-          requires : 
-            - Build-Frontend
-          context: slacknotifications
+      # - Test-Frontend :
+      #     requires : 
+      #       - Build-Frontend
+      #     context: slacknotifications
 
-      - Test-Backend: 
-          requires : 
-            - Build-Backend
-          context: slacknotifications
+      # - Test-Backend: 
+      #     requires : 
+      #       - Build-Backend
+      #     context: slacknotifications
 
-      - Scan-Frontend : 
-          requires:
-            - Build-Frontend
-          context: slacknotifications
-      - Scan-Backend: 
-          requires:
-            - Build-Backend
-          context: slacknotifications
+      # - Scan-Frontend : 
+      #     requires:
+      #       - Build-Frontend
+      #     context: slacknotifications
+      # - Scan-Backend: 
+      #     requires:
+      #       - Build-Backend
+      #     context: slacknotifications
       - Deploy-Infrastructure :
-          requires:
-            - Scan-Backend
-            - Scan-Frontend
           filters:
             branches:
               only:
