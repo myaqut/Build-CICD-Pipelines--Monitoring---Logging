@@ -277,7 +277,7 @@ jobs:
           command: |
             BACKEND_IP=$(cat ~/project/.circleci/ansible/backendip.txt)
             echo $BACKEND_IP
-            export API_URL="https://${BACKEND_IP}:3030"
+            export API_URL="http://${BACKEND_IP}:3030"
             echo API_URL="${API_URL}" >> frontend/.env
             cat frontend/.env
             
