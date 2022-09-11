@@ -240,8 +240,12 @@ jobs:
             cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
 
-      - destroy-environment
-      - revert-migrations
+      - destroy-environment:
+            workflow_id: ${CIRCLE_WORKFLOW_ID}   
+
+
+      - revert-migrations:
+            workflow_id: ${CIRCLE_WORKFLOW_ID}   
   Run-Migrations:
     docker : 
       - image: cimg/node:13.8.0
