@@ -444,14 +444,6 @@ workflows:
               branches:
                 only:
                   - master
-      - Deploy-Frontend: 
-            requires:
-               - Run-Migrations
-
-            filters:
-              branches:
-                only:
-                  - master
  
       - Deploy-Backend:
              requires:
@@ -460,6 +452,14 @@ workflows:
                 branches:
                   only:
                     - master
+      - Deploy-Frontend: 
+            requires:
+               - Deploy-Backend
+
+            filters:
+              branches:
+                only:
+                  - master
 
       - Smoke-Test : 
               requires:
