@@ -494,52 +494,52 @@ workflows:
                 only:
                   - master
 
-      - Run-Migrations :
-            requires:
-               - Configure-Infrastructure
-            filters:
-              branches:
-                only:
-                  - master
+      # - Run-Migrations :
+      #       requires:
+      #          - Configure-Infrastructure
+      #       filters:
+      #         branches:
+      #           only:
+      #             - master
  
-      - Deploy-Backend:
-             requires:
-                 - Run-Migrations
-             filters:
-                branches:
-                  only:
-                    - master
-      - Deploy-Frontend: 
-            requires:
-               - Deploy-Backend
+      # - Deploy-Backend:
+      #        requires:
+      #            - Run-Migrations
+      #        filters:
+      #           branches:
+      #             only:
+      #               - master
+      # - Deploy-Frontend: 
+      #       requires:
+      #          - Deploy-Backend
 
-            filters:
-              branches:
-                only:
-                  - master
+      #       filters:
+      #         branches:
+      #           only:
+      #             - master
 
-      - Smoke-Test : 
-              requires:
-                - Deploy-Backend 
-                - Deploy-Frontend
-              filters:
-                branches:
-                  only:
-                    - master
+      # - Smoke-Test : 
+      #         requires:
+      #           - Deploy-Backend 
+      #           - Deploy-Frontend
+      #         filters:
+      #           branches:
+      #             only:
+      #               - master
 
-      - Cloudfront-Update : 
-              requires:
-                - Smoke-Test
-              filters:
-                branches:
-                  only:
-                    - master
+      # - Cloudfront-Update : 
+      #         requires:
+      #           - Smoke-Test
+      #         filters:
+      #           branches:
+      #             only:
+      #               - master
 
-      - Cleanup : 
-              requires:
-                - Cloudfront-Update
-              filters:
-                branches:
-                  only:
-                    - master 
+      # - Cleanup : 
+      #         requires:
+      #           - Cloudfront-Update
+      #         filters:
+      #           branches:
+      #             only:
+      #               - master 
  
