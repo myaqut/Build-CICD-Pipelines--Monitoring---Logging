@@ -456,35 +456,38 @@ jobs:
 workflows:
   Default:
     jobs:
-      # - Build-Frontend : 
-      #     context: slacknotifications
+      - Build-Frontend : 
+          context: slacknotifications
 
-      # - Build-Backend : 
-      #      context: slacknotifications
+      - Build-Backend : 
+           context: slacknotifications
 
-      # - Test-Frontend :
-      #     requires : 
-      #       - Build-Frontend
-      #     context: slacknotifications
+      - Test-Frontend :
+          requires : 
+            - Build-Frontend
+          context: slacknotifications
 
-      # - Test-Backend: 
-      #     requires : 
-      #       - Build-Backend
-      #     context: slacknotifications
+      - Test-Backend: 
+          requires : 
+            - Build-Backend
+          context: slacknotifications
 
-      # - Scan-Frontend : 
-      #     requires:
-      #       - Build-Frontend
-      #     context: slacknotifications
-      # - Scan-Backend: 
-      #     requires:
-      #       - Build-Backend
-      #     context: slacknotifications
+      - Scan-Frontend : 
+          requires:
+            - Build-Frontend
+          context: slacknotifications
+      - Scan-Backend: 
+          requires:
+            - Build-Backend
+          context: slacknotifications
       - Deploy-Infrastructure :
           filters:
             branches:
               only:
                 - master
+          requires:
+            - Scan-Backend
+            - Scan-Frontend
 
       - Configure-Infrastructure :
             requires:
