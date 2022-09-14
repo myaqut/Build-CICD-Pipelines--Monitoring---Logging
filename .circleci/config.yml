@@ -50,8 +50,6 @@ jobs:
           cd backend
 
           npm i
-          npm outdated
-          npm update
           npm run build
       
       - save_cache:
