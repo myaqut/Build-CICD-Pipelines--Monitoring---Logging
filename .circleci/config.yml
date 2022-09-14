@@ -49,6 +49,7 @@ jobs:
       - run: |
           cd backend
           npm i
+          npm install -g npm
           npm run build
       
       - save_cache:
@@ -73,6 +74,7 @@ jobs:
       - run: |
           cd frontend
           npm i
+          npm install -g npm
           npm run build
 
       - save_cache:
