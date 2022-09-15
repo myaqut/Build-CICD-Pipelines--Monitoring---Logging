@@ -5,4 +5,5 @@ The following project includes automating the deployment process of a web applic
 
 ### Project Resources:
 
-1- The public URL for your S3 Bucket (aka, your front-end). [https://udapeople-14fdaf3d-6bf3-4404-88c7-1b0c9b21e8e3.s3.amazonaws.com/index.html]
+1- The public URL for your S3 Bucket (aka, your front-end). [https://udapeople-0a4d9dc7-9042-49f2-9ce6-f85ca9049864.s3.amazonaws.com/index.html]
+2- cloud front : https://d1e8djinjo2ukz.cloudfront.net/

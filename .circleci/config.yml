@@ -379,7 +379,7 @@ jobs:
           fingerprints:
             - "34:2e:bb:9d:6c:9c:eb:9e:f6:bc:5c:14:92:b4:c0:af"
           
-      - run:
+      - run: 
           name: Install dependencies
           command: |
             sudo apt install curl
