@@ -18,12 +18,6 @@ This project focuses on automating the deployment process of web applications, i
 1. Clone the repository.
 2. Configure AWS services according to the project documentation.
 3. Set up CircleCI with your project.
+4. Follow the instructions mentioned in the instruction folder.
 
-## Usage
-Detailed steps for deploying your application, setting up monitoring, and enabling CI/CD are provided in the project documentation.
 
-## Contributing
-Contributions are welcome. Please refer to the contribution guidelines for more information.
-
-## License
-The project is licensed under the MIT License. See the LICENSE file for details.
