@@ -1,9 +1,29 @@
-## Build CI-CD Pipelines Monitoring Logging
+# Build CI/CD Pipelines, Monitoring & Logging
 
+## Overview
+This project focuses on automating the deployment process of web applications, incorporating CircleCI for CI/CD, Prometheus for monitoring, and AWS services for infrastructure.
 
-The following project includes automating the deployment process of a web application using Circleci, Monitoring using prometheus, and AWS.
+## Features
+- CI/CD integration using CircleCI.
+- Application monitoring with Prometheus.
+- Deployment and hosting with AWS services.
 
-### Project Resources:
+## Getting Started
+### Prerequisites
+- AWS account
+- CircleCI account
+- Basic understanding of Prometheus
 
-1- The public URL for your S3 Bucket (aka, your front-end). [https://udapeople-8ce76f2d-bb29-4abc-a446-388fd07673b1.s3.amazonaws.com/index.html]
-2- cloud front : https://d1e8djinjo2ukz.cloudfront.net/
+### Setup
+1. Clone the repository.
+2. Configure AWS services according to the project documentation.
+3. Set up CircleCI with your project.
+
+## Usage
+Detailed steps for deploying your application, setting up monitoring, and enabling CI/CD are provided in the project documentation.
+
+## Contributing
+Contributions are welcome. Please refer to the contribution guidelines for more information.
+
+## License
+The project is licensed under the MIT License. See the LICENSE file for details.
